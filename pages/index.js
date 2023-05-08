@@ -33,9 +33,9 @@ export default function Home() {
 
 
         <div className={`rounded bg-white h-40 shadow-sm flex items-center justify-around border-4
-        ${temperature >= 14 ?
-            "border-blue-500" :
-            "border-red-500"
+        ${temperature >= 23 ?
+            "border-red-500" :
+            "border-blue-500"
           }
       `}>
           <picture className="flex flex-col items-center justify-center">
@@ -46,7 +46,7 @@ export default function Home() {
             />
             <p className="text-xl">Temperatura</p>
           </picture>
-          <span className={`text-xl ${temperature >= 14 ? "text-blue-700" : "text-red-700"}`}>{temperature} ºC</span>
+          <span className={`text-xl ${temperature >= 23 ? "text-red-700" : "text-blue-700"}`}>{temperature} ºC</span>
         </div>
       </div>
 

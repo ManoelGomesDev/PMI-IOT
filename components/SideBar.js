@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import Link from "next/link";
-import { HomeIcon, CreditCardIcon, UserIcon } from "@heroicons/react/24/solid";
+import { HomeIcon, CreditCardIcon, UserIcon, ClipboardDocumentIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/router";
 
 const SideBar = forwardRef(({ showNav }, ref) => {
@@ -12,7 +12,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
         <picture>
           <img
             className="w-32 h-auto"
-            src="/ferox-transparent.png"
+            src="/logoImage.png"
             alt="company logo"
           />
         </picture>
@@ -23,8 +23,8 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
               router.pathname == "/"
-                ? "bg-orange-100 text-orange-500"
-                : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+              ? "bg-blue-100 text-blue-500"
+              : "text-gray-400 hover:bg-blue-100 hover:text-blue-500"
             }`}
           >
             <div className="mr-2">
@@ -35,19 +35,19 @@ const SideBar = forwardRef(({ showNav }, ref) => {
             </div>
           </div>
         </Link>
-        <Link href="/account">
+        <Link href="/rdo">
           <div
             className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
-              router.pathname == "/account"
-                ? "bg-orange-100 text-orange-500"
-                : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+              router.pathname == "/rdo"
+                ? "bg-blue-100 text-blue-500"
+                : "text-gray-400 hover:bg-blue-100 hover:text-blue-500"
             }`}
           >
             <div className="mr-2">
-              <UserIcon className="h-5 w-5" />
+              <ClipboardDocumentIcon className="h-5 w-5" />
             </div>
             <div>
-              <p>Account</p>
+              <p>RDO</p>
             </div>
           </div>
         </Link>

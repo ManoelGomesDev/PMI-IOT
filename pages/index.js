@@ -54,7 +54,7 @@ export default function Dashboard() {
       led.set(false)
       setLedOn(false)
     }
-  }, [temperature, temperatureConfig])
+  }, [temperature, temperatureConfig, led, mcp])
 
   function handleOnMcp(){
     mcp.set(true)

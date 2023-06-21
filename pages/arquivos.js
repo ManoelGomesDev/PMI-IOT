@@ -1,37 +1,53 @@
 import { useEffect, useState } from "react"
-import { database } from "../services/firebase"
+import { database, storage } from "../services/firebase"
 import Modal from "../components/Modal"
 import { format } from 'date-fns';
+import FileUpload from "../components/FileUpload";
 
 
-export default function Rdo() {
+
+
+
+
+export default function Arquivos() {
+
+
+
+
+ 
+  
 
     const [equipament, setEquipament] = useState('')
-    const [description, setDescription] = useState('')
-    const [user, setUser] = useState('')
+    const [ship, setShip] = useState('')
    
+
     const [showModal, setShowModal] = useState(false)
-    const [rdos, setRdos] = useState([])
+    const [documents, setDocuments] = useState([])
 
     const date = format(new Date(), 'dd/MM/yyyy');
 
     useEffect(() => {
-        const refRdo = database.ref('rdos')
+        const refDocuments = database.ref('documents')
 
-        refRdo.on('value', result => {
-            const resultRdo = Object.entries(result.val() ?? {}).map(([chave, valor]) => {
+        refDocuments.on('value', result => {
+            const resultDocuments = Object.entries(result.val() ?? {}).map(([chave, valor]) => {
                 return {
                     'chave': chave,
                     'equipament': valor.equipament,
-                    'description': valor.description,
-                    'user': valor.user,
-                    'date': valor.date
+                    'ship': valor.ship,
                     
+                    'date': valor.date
+
                 }
             })
-            setRdos(resultRdo)
+            setDocuments(resultDocuments)
         })
     }, [])
+
+   
+
+
+
 
     function handleShowForm() {
         return setShowModal(true)
@@ -39,31 +55,36 @@ export default function Rdo() {
 
 
 
-    function saveRdo(event) {
+    function saveDocuments(event) {
         event.preventDefault()
 
-        const refRdo = database.ref('rdos')
+        const refDocuments = database.ref('documents')
 
         const data = {
             equipament,
-            description,
-            user,
+            ship,
+         
             date
         }
 
-        refRdo.push(data)
+        refDocuments.push(data)
         setEquipament('')
-        setDescription('')
-        setUser('')
+        setShip('')
         setShowModal(false)
 
     }
 
     return (
         <>
+        <div className="flex space-x-96 pt-3">
+        <p className="text-gray-700 text-3xl mb-10 font-bold">Cadastrar equipamento para impressão 3D</p>
+         <button onClick={handleShowForm} className=" bg-blue-700 text-white rounded w-36 h-14 mb-6 ">
+            Salvar novo documento</button>
+        </div>
+        
             <div className="flex flex-col  h-screen ">
 
-                <button onClick={handleShowForm} className=" bg-blue-700 text-white rounded w-36 h-14 mb-6 ">Criar novo RDO</button>
+               
 
 
 
@@ -72,19 +93,22 @@ export default function Rdo() {
                         <tr className="border-2">
                             <th className="border-2 border-black px-2">Data</th>
                             <th className="border-2 border-black px-2">Equipamento</th>
-                            <th className="border-2 border-black px-2">Supervisor</th>
-                            <th className="border-2 px-2 border-black">Descrição da manutenção</th>
+                            <th className="border-2 border-black px-2">Navio</th>
+                            <th className="border-2 px-2 border-black">Projeto</th>
                         </tr>
                     </thead>
                     <tbody className="border-2">
-                        {rdos.map(rdo => {
+                        {documents.map(rdo => {
                             return (
-                                <tr>
+                                <>
+                                      <tr>
                                     <td className="px-2">{rdo.date}</td>
                                     <td className="border-2 px-2">{rdo.equipament}</td>
-                                    <td className="border-2 px-2">{rdo.user}</td>
-                                    <td className="border-2 px-2">{rdo.description}</td>
+                                    <td className="border-2 px-2">{rdo.ship}</td>
+                                    <td className="border-2 px-2">{rdo.project}</td>
                                 </tr>
+                                </>
+                          
                             )
 
                         })}
@@ -96,12 +120,14 @@ export default function Rdo() {
 
             </div>
             <Modal isVisible={showModal}>
-                <form className="w-full max-w-xl flex flex-col rounded py-4 px-4 bg-white " onSubmit={saveRdo}>
+                <form className="w-full max-w-xl flex flex-col rounded py-4 px-4 bg-white " onSubmit={saveDocuments}>
                     <input className=" mb-4 py-3 px-3 border" value={equipament} type="text" placeholder="Equipamento" onChange={e => setEquipament(e.target.value)}></input>
-                    <input className=" mb-4 py-3 px-3 border" value={user} type="text" placeholder="Usuário" onChange={e => setUser(e.target.value)}></input>
-                    
-                
-                    <textarea className="h-64 border py-3 px-3 mb-4" value={description} type="text" placeholder="Descrição da manutenção" onChange={e => setDescription(e.target.value)} />
+                    <input className=" mb-4 py-3 px-3 border" value={ship} type="text" placeholder="Navio" onChange={e => setShip(e.target.value)}></input>
+
+
+                    <div>
+                       <FileUpload />
+                    </div>
                     <button className="px-4 py-4 bg-blue-700 text-white" type="submit">Salvar</button>
 
                 </form>

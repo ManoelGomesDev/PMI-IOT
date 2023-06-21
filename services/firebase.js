@@ -1,25 +1,31 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
+import 'firebase/compat/storage';
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDSTC_8iyUq4lkmUYJHCzRuE4CpTL0HdC4",
-    authDomain: "temperature-iot-c6340.firebaseapp.com",
-    databaseURL: "https://temperature-iot-c6340-default-rtdb.firebaseio.com",
-    projectId: "temperature-iot-c6340",
-    storageBucket: "temperature-iot-c6340.appspot.com",
-    messagingSenderId: "617322064674",
-    appId: "1:617322064674:web:fb1aaf1bbe4a642c14137b"
+
+  databaseURL: "https://pracamaquinaintegrada-default-rtdb.firebaseio.com",
+  apiKey: "AIzaSyCJsL9KY9JWlQAVb3URYXTu1UkAxJIGo_k",
+  authDomain: "pracamaquinaintegrada.firebaseapp.com",
+  projectId: "pracamaquinaintegrada",
+  storageBucket: "pracamaquinaintegrada.appspot.com",
+  messagingSenderId: "200719582716",
+  appId: "1:200719582716:web:3494b385a7ae78f5fa9e79"
 };
 
 try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-  } catch (err) {
-    console.error('Erro ao inicializar o Firebase', err);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
   }
+} catch (err) {
+  console.error('Erro ao inicializar o Firebase', err);
+}
+const storage = firebase.storage();
+
+
+
 
 const database = firebase.database()
 
-export {database, firebase}
+export { database, firebase, storage }

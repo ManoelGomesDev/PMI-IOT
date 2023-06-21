@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [temperatureOut, setTemperatureOut] = useState(0);
 
   const [rpm, setRpm] = useState(0);
+  const [ledOn, setLedOn] = useState();
 
   const [temperatureOutConfig, setTemperatureOutConfig] = useState(6);
   const [pressureConfig, setPressureConfig] = useState(0);
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const rangeTempInAndOut = temperatureIn - temperatureOut;
   const yieldTemp60percent = 10;
   const yieldTemp40percent = 5;
+  const led = database.ref("ledOn");
 
   useEffect(() => {
     const refTemp1 = database.ref("temp1");
@@ -66,8 +68,13 @@ export default function Dashboard() {
     }
     if (rangeTempInAndOut < yieldTemp40percent) {
         mcp.set(false);
+        setLedOn(true);
+        led.set(true);
         setShowModal1(true);
         setShowModal2(false)
+      } else {
+        setLedOn(false);
+        led.set(false);
       }
 
  
@@ -78,7 +85,8 @@ export default function Dashboard() {
     rangeTempInAndOut,
     yieldTemp40percent,
     yieldTemp60percent,
-    showModal1
+    showModal1,
+    led
   ]);
 
   function setPlusTemperatureOutConfig() {

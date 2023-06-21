@@ -79,17 +79,12 @@ export default function Rdo() {
           <tbody className="border-2">
             {rdos.map((rdo) => {
               return (
-                <div key={rdo.id}>
-                       <tr >
+                       <tr key={rdo.id}>
                     <td className="px-2">{rdo.date}</td>
                     <td className="border-2 px-2">{rdo.equipament}</td>
                     <td className="border-2 px-2">{rdo.user}</td>
                     <td className="border-2 px-2">{rdo.description}</td>
-                  </tr>
-
-                </div>
-               
-                
+                  </tr> 
               );
             })}
           </tbody>

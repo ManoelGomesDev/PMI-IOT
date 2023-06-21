@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [temperature, setTemperature] = useState();
   const [pressure, setPressure] = useState(5);
   const [rpm, setRpm] = useState(0);
-  const [temperatureConfig, setTemperatureConfig] = useState(30);
+  const [temperatureConfig, setTemperatureConfig] = useState(50);
   const [pressureConfig, setPressureConfig] = useState(6);
   const [showModal, setShowModal] = useState(false);
 

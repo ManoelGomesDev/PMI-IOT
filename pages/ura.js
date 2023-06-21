@@ -75,7 +75,7 @@ export default function Dashboard() {
             setShowModal1(true)
         }
 
-    }, [temperatureOut, temperatureOutConfig])
+    }, [temperatureOut, temperatureOutConfig, mcp, rangeTempInAndOut, yieldTemp40percent, yieldTemp60percent])
 
 
 

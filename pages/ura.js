@@ -124,12 +124,12 @@ export default function Dashboard() {
   return (
     <div className="grid lg:grid-cols-1 h-screen mx-10">
       <div className="mt-10"> 
-        <div className={styles.header && `flex items-center justify-between  mb-6`}>
+        <div className={styles.header }>
         
           <p className="text-gray-700 text-3xl mb-10 font-bold">
             Parâmetros da URA
           </p>
-          <div className={styles.headerBtn && `flex gap-4`}>
+          <div className={styles.headerBtn}>
           <button
             className={`w-40 py-4 rounded ${
               mcpOn ? "bg-blue-600 text-white" : "bg-gray-200 text-black"

@@ -6,7 +6,8 @@
 
 .headerBtn {
     display: flex;
-    gap: 4;
+    flex-direction: row;
+    gap: 10px;
 }
 
 .modalTemp {
@@ -21,5 +22,17 @@
    {
     flex-direction: column;
     margin: 10px 10px;
+   }
+}
+
+@media (max-width: 434px)
+{
+  .header
+   {
+    flex-direction: column;
+    margin: 10px 10px;
+   }
+   .headerBtn {
+    flex-direction: column;
    }
 }

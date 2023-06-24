@@ -117,7 +117,7 @@ export default function Dashboard() {
             <p className="text-gray-700 text-3xl mb-10 font-bold">
               Parâmetros do MCP
             </p>
-            <div className={styles.headerBtn && `flex gap-4`}>
+            <div className={styles.headerBtn}>
             <button
               className={`w-40 py-4 rounded ${
                 mcpOn ? "bg-blue-600 text-white" : "bg-gray-200 text-black"

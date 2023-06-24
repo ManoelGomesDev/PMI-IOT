@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [pressureConfig, setPressureConfig] = useState(0);
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+  const [showModal3, setShowModal3] = useState(false);
 
   const rangeTempInAndOut = temperatureIn - temperatureOut;
   const yieldTemp60percent = 10;
@@ -54,10 +55,12 @@ export default function Dashboard() {
 
     if (temperatureOut < temperatureOutConfig) {
       mcp.set(false);
-      setShowModal1(true);
+      setShowModal3(true);
     }
     if (temperatureOut > temperatureOutConfig) {
-      setShowModal1(false);
+      setShowModal3(false);
+      setShowModal1(false)
+      
     }
     if (!showModal1) {
       if (rangeTempInAndOut < yieldTemp60percent) {
@@ -183,6 +186,23 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
+          <div
+            className={`rounded bg-white h-40 shadow-sm flex items-center justify-around border-4 ${
+              showModal1 | showModal2 ? "border-red-500" : "border-blue-500"
+            }`}
+          >
+            <picture className="flex flex-col items-center justify-center">
+              <img className="w-26 h-auto" src="/termometre.png" alt="mcp" />
+            </picture>
+            <div className="flex flex-col">
+              <p className="text-xl mb-3 text-center">
+                Variação da Temperatura
+              </p>
+              <p className="text-center font-bold text-lg">
+                {rangeTempInAndOut} ºC
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -228,7 +248,14 @@ export default function Dashboard() {
           ALERTA - Rendimento de Temperatura fora dos Parâmetros
         </h3>
         <p className="text-center font-bold text-2xl">{`Range de temperatura em ${rangeTempInAndOut} ºC, rendimento abaixo do previsto`}</p>
-        <button onClick={handleBtn}>OK</button>
+        
+      </Modal>
+      <Modal isVisible={showModal3}>
+        <h3 className="text-center font-bold text-red-500 text-3xl">
+          ALERTA - Temperatura da água de saída abaixo dos parâmetros estabelecidos.
+        </h3>
+        <p className="text-center font-bold text-2xl">{`Temperatura em ${temperatureOut} ºC, abaixo do setpoint`}</p>
+       
       </Modal>
     </div>
   );

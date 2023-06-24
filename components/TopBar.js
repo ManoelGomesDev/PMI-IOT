@@ -36,7 +36,7 @@ export default function TopBar({ showNav, setShowNav }) {
                 />
               </picture>
               <span className="hidden md:block font-medium text-gray-700">
-                Rettson
+                Militar
               </span>
              
             </Menu.Button>
@@ -61,15 +61,7 @@ export default function TopBar({ showNav, setShowNav }) {
                     Edit
                   </Link>
                 </Menu.Item>
-                <Menu.Item>
-                  <Link
-                    href="#"
-                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
-                  >
-                    <CreditCardIcon className="h-4 w-4 mr-2" />
-                    Billing
-                  </Link>
-                </Menu.Item>
+          
                 <Menu.Item>
                   <Link
                     href="#"

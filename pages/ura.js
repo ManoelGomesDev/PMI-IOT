@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { database } from "../services/firebase";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import Modal from "../components/Modal";
+import styles from '../styles/home.module.css'
 
 export default function Dashboard() {
   const [mcpOn, setMcpOn] = useState();
@@ -118,12 +119,14 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="grid lg:grid-cols-1">
-      <div>
-        <div className="flex items-center justify-between  mb-6">
+    <div className="grid lg:grid-cols-1 h-screen mx-10">
+      <div className="mt-10"> 
+        <div className={styles.header && `flex items-center justify-between  mb-6`}>
+        
           <p className="text-gray-700 text-3xl mb-10 font-bold">
             Parâmetros da URA
           </p>
+          <div className={styles.headerBtn && `flex gap-4`}>
           <button
             className={`w-40 py-4 rounded ${
               mcpOn ? "bg-blue-600 text-white" : "bg-gray-200 text-black"
@@ -142,6 +145,9 @@ export default function Dashboard() {
           >
             Ligar URA
           </button>
+
+          </div>
+
         </div>
 
         <div className="grid lg:grid-cols-3 gap-5 mb-16">

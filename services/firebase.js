@@ -3,6 +3,8 @@ import 'firebase/compat/database';
 import 'firebase/compat/storage';
 
 
+
+
 const firebaseConfig = {
 
   databaseURL: "https://pracamaquinaintegrada-default-rtdb.firebaseio.com",
@@ -26,6 +28,8 @@ const storage = firebase.storage();
 
 
 
+
+
 const database = firebase.database()
 
-export { database, firebase, storage }
+export { database, storage, firebase }

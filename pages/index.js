@@ -1,7 +1,8 @@
 import { Fragment, useEffect, useState } from "react";
-import { database } from "../services/firebase";
+import {database}  from "../services/firebase";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import Modal from "../components/Modal";
+import styles from "../styles/home.module.css"
 
 export default function Dashboard() {
   const [temperature, setTemperature] = useState();
@@ -48,6 +49,41 @@ export default function Dashboard() {
     }
   }, [temperature, temperatureConfig, led, mcp]);
 
+  useEffect(() => {
+    const refTemperaturesConfig = database.ref("tempConfig");
+
+    refTemperaturesConfig.on("value", (snapshot) => {
+      setTemperatureConfig(Math.round(snapshot.val()));
+    });
+
+    return () => {
+      refTemperaturesConfig.off("value");
+    };
+  }, [temperatureConfig]);
+
+  const aumentarValor = () => {
+    const novoValor = temperatureConfig + 1;
+    const databaseRef = database.ref('tempConfig');
+    databaseRef.set(novoValor)
+      .then(() => {
+        console.log('Valor atualizado com sucesso!');
+      })
+      .catch((error) => {
+        console.error('Erro ao atualizar o valor:', error);
+      })
+    }
+    const diminuirValor = () => {
+      const novoValor = temperatureConfig - 1;
+      const databaseRef = database.ref('tempConfig');
+      databaseRef.set(novoValor)
+        .then(() => {
+          console.log('Valor atualizado com sucesso!');
+        })
+        .catch((error) => {
+          console.error('Erro ao atualizar o valor:', error);
+        })
+      }
+
   function handleOnMcp() {
     mcp.set(true);
     setRpm(1200);
@@ -57,13 +93,13 @@ export default function Dashboard() {
     setRpm(0);
   }
 
-  function setPlusTemperatureConfig() {
-    setTemperatureConfig(temperatureConfig + 1);
-  }
+  // function setPlusTemperatureConfig() {
+  //   setTemperatureConfig(temperatureConfig + 1);
+  // }
 
-  function setMinusTemperatureConfig() {
-    setTemperatureConfig(temperatureConfig - 1);
-  }
+  // function setMinusTemperatureConfig() {
+  //   setTemperatureConfig(temperatureConfig - 1);
+  // }
 
   function setPlusPressureConfig() {
     setPressureConfig(pressureConfig + 1);
@@ -75,12 +111,13 @@ export default function Dashboard() {
 
   return (
     <Fragment>
-      <div className="grid lg:grid-cols-1">
-        <div>
-          <div className="flex items-center justify-between  mb-6">
+      <div className="grid lg:grid-cols-1 h-screen mx-10">
+        <div className="mt-10">
+          <div className={styles.header}>
             <p className="text-gray-700 text-3xl mb-10 font-bold">
               Parâmetros do MCP
             </p>
+            <div className={styles.headerBtn && `flex gap-4`}>
             <button
               className={`w-40 py-4 rounded ${
                 mcpOn ? "bg-blue-600 text-white" : "bg-gray-200 text-black"
@@ -99,6 +136,9 @@ export default function Dashboard() {
             >
               Ligar MCP
             </button>
+
+            </div>
+
           </div>
           <div className="grid lg:grid-cols-3 gap-5 mb-16">
             <div
@@ -158,7 +198,7 @@ export default function Dashboard() {
                 <p className="text-xl mb-3">Temperatura do óleo</p>
                 <div className="flex space-x-4">
                   <button
-                    onClick={setMinusTemperatureConfig}
+                    onClick={diminuirValor}
                     disabled={temperatureConfig <= 0}
                   >
                     <MinusIcon className="h-5 w-5" />
@@ -167,7 +207,7 @@ export default function Dashboard() {
                   <p className="text-center font-bold text-lg">
                     {temperatureConfig} ºC
                   </p>
-                  <button onClick={setPlusTemperatureConfig}>
+                  <button onClick={aumentarValor}>
                     <PlusIcon className="h-5 w-5" />
                   </button>
                 </div>
@@ -199,11 +239,15 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <Modal isVisible={showModal}>
+      <Modal isVisible={showModal} >
+        <div className={styles.modalTemp}>
         <h3 className="text-center font-bold text-red-500 text-3xl">
           ALERTA - Temperatura fora dos Parâmetros
         </h3>
         <p className="text-center font-bold text-2xl">{`Temperatura do óleo do MCP em ${temperature} ºC, MCP desligado por motivo de segurança, verificar a temperatura. Quando for restabelecida a temperatura dentro dos padroes de trabalho, será permitido religar o MCP`}</p>
+
+        </div>
+
       </Modal>
     </Fragment>
   );

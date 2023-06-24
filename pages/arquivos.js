@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import { format } from "date-fns";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 
 export default function Arquivos() {
   const [equipament, setEquipament] = useState("");
@@ -175,7 +176,7 @@ export default function Arquivos() {
           </div>
         </form>
         {!imgURL && <progress value={progress} max="100" />}
-        {imgURL && <img src={imgURL} alt="Imagem" />}
+        {imgURL && <Image src={imgURL} alt="Imagem" />}
       </Modal>
     </>
   );

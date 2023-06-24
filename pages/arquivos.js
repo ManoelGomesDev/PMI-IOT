@@ -42,16 +42,15 @@ export default function Arquivos() {
         });
       }
     );
-
     const refDocuments = database.ref("documents");
 
     const data = {
       equipament,
       ship,
-
+      imgURL,
       date,
     };
-
+    
     refDocuments.push(data);
     setEquipament("");
     setShip("");
@@ -68,14 +67,17 @@ export default function Arquivos() {
             chave: chave,
             equipament: valor.equipament,
             ship: valor.ship,
+            file: valor.imgURL,
             date: valor.date,
+
           };
         }
       );
       setDocuments(resultDocuments);
     });
-  }, []);
+  }, [imgURL]);
 
+  
   function handleShowForm() {
     return setImgURL("") & setShowModal(true);
   }
@@ -110,13 +112,13 @@ export default function Arquivos() {
               </tr>
             </thead>
             <tbody>
-              {documents.map((rdo) => {
+              {documents.map((document) => {
                 return (
                   <>
                     <tr>
-                      <td>{rdo.date}</td>
-                      <td>{rdo.equipament}</td>
-                      <td>{rdo.ship}</td>
+                      <td>{document.date}</td>
+                      <td>{document.equipament}</td>
+                      <td>{document.ship}</td>
                       <td>
                         <a href={imgURL} target="_blank" rel="noreferrer">
                         <ArrowDownTrayIcon className="h-5 w-5" />
@@ -141,7 +143,7 @@ export default function Arquivos() {
             </div>
             <div className="form-control w-full max-w-xs">
               <label className="label">
-                <span className="label-text">Navio</span>
+                <span className="label-text">Equipamento</span>
               </label>
               <input
                 type="text"

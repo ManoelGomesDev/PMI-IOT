@@ -118,7 +118,7 @@ export default function Arquivos() {
                       <td>{rdo.equipament}</td>
                       <td>{rdo.ship}</td>
                       <td>
-                        <a href={imgURL} target="_blank">
+                        <a href={imgURL} target="_blank" rel="noreferrer">
                         <ArrowDownTrayIcon className="h-5 w-5" />
                         </a>
                       </td>

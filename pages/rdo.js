@@ -37,6 +37,9 @@ export default function Rdo() {
   function handleShowForm() {
     return setShowModal(true);
   }
+  function handleHideForm() {
+    return setShowModal(false);
+  }
 
   function saveRdo(event) {
     event.preventDefault();
@@ -157,7 +160,7 @@ export default function Rdo() {
             <button className="btn bg-blue-700 text-white" type="submit">
               Salvar
             </button>
-            <button className="btn">Cancelar</button>
+            <button className="btn" onClick={handleHideForm}>Cancelar</button>
           </div>
         </form>
       </Modal>

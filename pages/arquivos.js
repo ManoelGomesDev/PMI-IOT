@@ -5,9 +5,11 @@ import { format } from "date-fns";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import firebase from "firebase/compat/app";
 
-export default function Arquivos() {
+export default function Arquivos({ file }) {
   const [equipament, setEquipament] = useState("");
+  const [nameEquipament, setNameEquipament] = useState("");
   const [ship, setShip] = useState("");
   const [progress, setProgress] = useState(0);
   const [imgURL, setImgURL] = useState("");
@@ -38,23 +40,9 @@ export default function Arquivos() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setImgURL(url);
-          setShowModal(false)
         });
       }
     );
-    const refDocuments = database.ref("documents");
-
-    const data = {
-      equipament,
-      ship,
-      imgURL,
-      date,
-    };
-    
-    refDocuments.push(data);
-    setEquipament("");
-    setShip("");
-   
   };
 
   useEffect(() => {
@@ -67,17 +55,32 @@ export default function Arquivos() {
             chave: chave,
             equipament: valor.equipament,
             ship: valor.ship,
-            file: valor.imgURL,
+            imgURL: valor.imgURL,
             date: valor.date,
-
           };
         }
       );
+
       setDocuments(resultDocuments);
     });
   }, [imgURL]);
 
-  
+  function saveDocument() {
+    const refDocuments = database.ref("documents");
+
+    const data = {
+      equipament,
+      ship,
+      imgURL,
+      date,
+    };
+
+    refDocuments.push(data);
+    setEquipament("");
+    setShip("");
+    setShowModal(false);
+  }
+
   function handleShowForm() {
     return setImgURL("") & setShowModal(true);
   }
@@ -93,6 +96,10 @@ export default function Arquivos() {
           <p className="text-gray-700 text-3xl mb-10 font-bold">
             Cadastrar equipamento para impressão 3D
           </p>
+          <input
+            onChange={(e) => setNameEquipament(e.target.value)}
+            value={nameEquipament}
+          />
           <button
             onClick={handleShowForm}
             className="btn bg-blue-700 text-white"
@@ -120,8 +127,12 @@ export default function Arquivos() {
                       <td>{document.equipament}</td>
                       <td>{document.ship}</td>
                       <td>
-                        <a href={imgURL} target="_blank" rel="noreferrer">
-                        <ArrowDownTrayIcon className="h-5 w-5" />
+                        <a
+                          href={document.imgURL}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <ArrowDownTrayIcon className="h-5 w-5" />
                         </a>
                       </td>
                     </tr>
@@ -138,9 +149,10 @@ export default function Arquivos() {
           onSubmit={formHandler}
         >
           <div className="flex flex-col gap-5">
-          <div>
+            <div>
               <input type="file" className="input" />
             </div>
+            <button type="submit">Carregar</button>
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Equipamento</span>
@@ -166,10 +178,12 @@ export default function Arquivos() {
                 onChange={(e) => setShip(e.target.value)}
               />
             </div>
-        
           </div>
           <div className="flex flex-row-reverse gap-3">
-            <button className="btn bg-blue-700 text-white" type="submit">
+            <button
+              className="btn bg-blue-700 text-white"
+              onClick={saveDocument}
+            >
               Salvar
             </button>
             <button className="btn" onClick={handleHideForm}>
@@ -178,7 +192,7 @@ export default function Arquivos() {
           </div>
         </form>
         {!imgURL && <progress value={progress} max="100" />}
-        {imgURL && <Image src={imgURL} alt="Imagem" />}
+        {imgURL && <image src={imgURL} alt="Imagem" width="20" height="20" />}
       </Modal>
     </>
   );

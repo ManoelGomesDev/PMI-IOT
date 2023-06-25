@@ -4,6 +4,7 @@ import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import Modal from "../components/Modal";
 import styles from "../styles/home.module.css"
 
+
 export default function Dashboard() {
   const [temperature, setTemperature] = useState();
   const [pressure, setPressure] = useState(5);

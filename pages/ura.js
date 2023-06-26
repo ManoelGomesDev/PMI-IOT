@@ -16,16 +16,17 @@ export default function Dashboard() {
   const [rpm, setRpm] = useState(0);
   const [ledOn, setLedOn] = useState();
 
-  const [temperatureOutConfig, setTemperatureOutConfig] = useState(6);
-  const [pressureConfig, setPressureConfig] = useState(0);
+
+
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
 
   const rangeTempInAndOut = temperatureIn - temperatureOut;
-  const yieldTemp60percent = 10;
-  const yieldTemp40percent = 5;
+  const yieldTemp60percent = 33;
+  const yieldTemp40percent = 20;
   const led = database.ref("ledOn");
+  
 
   useEffect(() => {
     const refTemp1 = database.ref("temp1");
@@ -68,11 +69,11 @@ export default function Dashboard() {
       setMcpOn(snapshot.val());
     });
 
-    if (temperatureOut < temperatureOutConfig) {
+    if (temperatureOut < temperatureConfigURA) {
       mcp.set(false);
       setShowModal3(true);
     }
-    if (temperatureOut > temperatureOutConfig) {
+    if (temperatureOut > temperatureConfigURA) {
       setShowModal3(false);
       setShowModal1(false)
       
@@ -99,7 +100,7 @@ export default function Dashboard() {
  
   }, [
     temperatureOut,
-    temperatureOutConfig,
+    temperatureConfigURA,
     mcp,
     rangeTempInAndOut,
     yieldTemp40percent,
@@ -131,15 +132,6 @@ export default function Dashboard() {
         })
       }
 
-
-
-  function setPlusPressureConfig() {
-    setPressureConfig(pressureConfig + 1);
-  }
-
-  function setMinusPressureConfig() {
-    setPressureConfig(pressureConfig - 1);
-  }
 
   function handleBtn() {
     setShowModal2(false);

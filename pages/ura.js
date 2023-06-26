@@ -11,6 +11,7 @@ export default function Dashboard() {
 
   const [temperatureIn, setTemperatureIn] = useState();
   const [temperatureOut, setTemperatureOut] = useState(0);
+  const [temperatureConfigURA, setTemperatureConfigURA] = useState(6);
 
   const [rpm, setRpm] = useState(0);
   const [ledOn, setLedOn] = useState();
@@ -48,6 +49,20 @@ export default function Dashboard() {
       refTemp2.off("value");
     };
   }, [temperatureOut]);
+
+
+  useEffect(() => {
+    const refTemperaturesConfigURA = database.ref("tempConfigURA");
+
+    refTemperaturesConfigURA.on("value", (snapshot) => {
+      setTemperatureConfigURA(Math.round(snapshot.val()));
+    });
+
+    return () => {
+      refTemperaturesConfigURA.off("value");
+    };
+  }, [temperatureConfigURA]);
+
   useEffect(() => {
     mcp.on("value", (snapshot) => {
       setMcpOn(snapshot.val());
@@ -93,13 +108,30 @@ export default function Dashboard() {
     led
   ]);
 
-  function setPlusTemperatureOutConfig() {
-    setTemperatureOutConfig(temperatureOutConfig + 1);
-  }
+  const aumentarValor = () => {
+    const novoValor = temperatureConfigURA + 1;
+    const databaseRef = database.ref('tempConfigURA');
+    databaseRef.set(novoValor)
+      .then(() => {
+        console.log('Valor atualizado com sucesso!');
+      })
+      .catch((error) => {
+        console.error('Erro ao atualizar o valor:', error);
+      })
+    }
+    const diminuirValor = () => {
+      const novoValor = temperatureConfigURA - 1;
+      const databaseRef = database.ref('tempConfigURA');
+      databaseRef.set(novoValor)
+        .then(() => {
+          console.log('Valor atualizado com sucesso!');
+        })
+        .catch((error) => {
+          console.error('Erro ao atualizar o valor:', error);
+        })
+      }
 
-  function setMinusTemperatureOutConfig() {
-    setTemperatureOutConfig(temperatureOutConfig - 1);
-  }
+
 
   function setPlusPressureConfig() {
     setPressureConfig(pressureConfig + 1);
@@ -220,16 +252,16 @@ export default function Dashboard() {
               </p>
               <div className="flex space-x-4">
                 <button
-                  onClick={setMinusTemperatureOutConfig}
-                  disabled={temperatureOutConfig <= 0}
+                  onClick={diminuirValor}
+                  disabled={temperatureConfigURA <= 0}
                 >
                   <MinusIcon className="h-5 w-5" />
                 </button>
 
                 <p className="text-center font-bold text-lg">
-                  {temperatureOutConfig} ºC
+                  {temperatureConfigURA} ºC
                 </p>
-                <button onClick={setPlusTemperatureOutConfig}>
+                <button onClick={aumentarValor}>
                   <PlusIcon className="h-5 w-5" />
                 </button>
               </div>
